@@ -8,14 +8,12 @@ import matplotlib.pyplot as plt
 from PIL import ImageTk, Image
 from arduinoComm import connect_arduino, send_data, read_data
 import tkinter as tk
-
-ser = connect_arduino();
-send_data(ser, "HIIIIIIIIIIIIii");
 #####
 
 
-#####
 
+#####
+UPDATE_RATE = 1000 # Rate of display data updates (in miilliseconds)
 GRAPH_PNG_PATH = 'graphs/';
 
 m1,m2,m3=0,0,0;
@@ -23,12 +21,12 @@ m1,m2,m3=0,0,0;
 root = tk.Tk()
 root.title("SET values")
 
-    # Create the main frames
-left_frame = tk.Frame(root, bg="white")
+# Create the main frames
+left_frame = tk.Frame(root, bg="white", width=1200)
 right_frame = tk.Frame(root, bg="grey")
 
-    # Pack the main frames
-left_frame.pack(side="left", fill="both")
+# Pack the main frames
+left_frame.pack(side="left", fill="both", expand=True)
 right_frame.pack(side="right", fill="both", expand=True)
 
 #Quad1 (X)
@@ -48,22 +46,22 @@ quad3.grid(row=1,column=0, padx=10, pady=10);
 
 
 set1_label = tk.Label(left_frame, text="Set X:")
-set1_label.grid(row=0, column=0, sticky="w")
+set1_label.grid(row=0+4, column=0, sticky="w")
 set1_entry = tk.Entry(left_frame)
-set1_entry.grid(row=0, column=1)
+set1_entry.grid(row=0+4, column=1)
 
 set2_label = tk.Label(left_frame, text="Set Y:")
-set2_label.grid(row=1, column=0, sticky="w")
+set2_label.grid(row=1+4, column=0, sticky="w")
 set2_entry = tk.Entry(left_frame)
-set2_entry.grid(row=1, column=1) 
+set2_entry.grid(row=1+4, column=1) 
 
 set3_label = tk.Label(left_frame, text="Set Z:")
-set3_label.grid(row=2, column=0, sticky="w") 
+set3_label.grid(row=2+4, column=0, sticky="w") 
 set3_entry = tk.Entry(left_frame)
-set3_entry.grid(row=2, column=1) 
+set3_entry.grid(row=2+4, column=1) 
 
 set_button = tk.Button(left_frame, text="Submit")
-set_button.grid(row=3, columnspan=2)
+set_button.grid(row=3+4, columnspan=2)
 
 measure1_label = tk.Label(left_frame, text="")
 measure1_label.grid(row=0, column=2, sticky="w")
@@ -186,7 +184,7 @@ def updateMeasured():
 
 is_scheduled = True
 def schedule_updates():
-    schedule_duration=1000; # in milliseconds
+    schedule_duration=UPDATE_RATE; # in milliseconds
 
     global is_scheduled
     if is_scheduled:
