@@ -1,4 +1,5 @@
 import serial
+import re
 
 # Connects to the Arduino.
 def connect_arduino(port='/dev/ttyUSB1', baud_rate=9600):    
@@ -17,13 +18,33 @@ def send_data(ser, data):
         except Exception as e:
             print(f"Failed to send data: {e}")
 
-# Reads data from the Arduino
-def read_data(ser):
+def read_raw_data(ser):
     if ser is not None:
         try:
             while True:
-                if ser.in_waiting > 0:
-                    return ser.readline().decode('utf-8').strip()
+                if ser.in_waiting >0:
+                    return ser.readline();
         except Exception as e:
-            print(f"Failed to read data: {e}")
-    return None
+            print((f"Failed to read data: {e}"));
+
+def echoMeasured():
+    try:
+        values = extract_messages();
+        measured_values = values[3:]
+        return measured_values;
+    except:
+        pass
+
+
+def extract_messages():
+    ser = connect_arduino();
+    arduino_recieved_raw = str(read_raw_data(ser));
+    try:
+        string_pattern = r'!([^#]*)#'
+        formatted_str_list = re.findall(string_pattern, arduino_recieved_raw);
+        formatted_string = formatted_str_list[0]
+        values = [int(formatted_string[i:i+4].strip()) for i in range(0,len(formatted_string),4)]
+        return values;
+    except Exception as e:
+        # Handle case where $ or # is not found
+        print(f"Message format not found. Failed to extract data: {e}")

@@ -17,20 +17,14 @@ void setup() {
 }
 
 void loop() {
-if (Serial.available() > 0) {
-    // get incoming byte:
-    inByte = Serial.read();
-    if(inByte == '?'){
-      char buff [200];
-      xSensor = analogRead(ANALOG_PORT_X) / 4;
-      // read second analog input, divide by 4 to make the range 0-255:
-      ySensor = analogRead(ANALOG_PORT_Y) / 4;
-      // read switch, map it to 0 or 255L
-      zSensor = analogRead(ANALOG_PORT_Z) / 4;
-      long int set1 = 1, set2 = 2, set3 = 3;
-      sprintf(buff, "$%4ld%4ld%4ld%4ld%4ld%4ld#", set1, set2, set3, xSensor, ySensor, zSensor);
-      Serial.println(buff);
-    }
+  char buff [200];
+  xSensor = analogRead(ANALOG_PORT_X) / 4;
+  // read second analog input, divide by 4 to make the range 0-255:
+  ySensor = analogRead(ANALOG_PORT_Y) / 4;
+  // read switch, map it to 0 or 255L
+  zSensor = analogRead(ANALOG_PORT_Z) / 4;
+  long int set1 = 1, set2 = 2, set3 = 3;
+  sprintf(buff, "!%4ld%4ld%4ld%4ld%4ld%4ld#", set1, set2, set3, xSensor, ySensor, zSensor);
+  Serial.println(buff);
 
-  }
 }

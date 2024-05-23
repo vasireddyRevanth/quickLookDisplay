@@ -6,17 +6,14 @@ import threading
 # import numpy as np
 import matplotlib.pyplot as plt
 from PIL import ImageTk, Image
-from arduinoComm import connect_arduino, send_data, read_data
+from arduinoComm import echoMeasured
 import tkinter as tk
 #####
-
 
 
 #####
 UPDATE_RATE = 1000 # Rate of display data updates (in miilliseconds)
 GRAPH_PNG_PATH = 'graphs/';
-
-m1,m2,m3=0,0,0;
 
 root = tk.Tk()
 root.title("SET values")
@@ -144,12 +141,12 @@ y2 = [0]
 y3 = [0]
 
 
-def generateGraph(): #m1,m2,m3
+def generateGraph(m1,m2,m3):
     current_time_seconds = time_elapsed;
     x.append(current_time_seconds);
-    y1.append(math.log(current_time_seconds+2));
-    y2.append(math.sqrt(current_time_seconds));
-    y3.append((current_time_seconds)**2);
+    y1.append(m1);
+    y2.append(m2);
+    y3.append(m3);
     
     #1
     plt.plot(x, y1)
@@ -173,11 +170,12 @@ def generateGraph(): #m1,m2,m3
 
 # Measured Values
 def updateMeasured():
+    measured = echoMeasured();
     current_time_str = datetime.now().strftime("%H:%M:%S");
-    measure1_label.config(text=m1);
-    measure2_label.config(text=current_time_str)
-    measure3_label.config(text=m3);
-    generateGraph();
+    measure1_label.config(text=current_time_str);
+    measure2_label.config(text=measured[1])
+    measure3_label.config(text=measured[2]);
+    generateGraph(measured[0], measured[1], measured[2]);
 
 
 # UPDATES

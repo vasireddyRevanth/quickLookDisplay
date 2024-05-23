@@ -1,6 +1,8 @@
-import serial
-import time
-from arduinoComm import connect_arduino, send_data, read_data
-import select
+import serial 
+from arduinoComm import extract_messages, echoMeasured
 
-...
+while True:
+    print(echoMeasured())
+# Open the serial port 
+
+
