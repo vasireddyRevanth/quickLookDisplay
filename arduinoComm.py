@@ -35,6 +35,26 @@ def echoMeasured():
     except:
         pass
 
+def extract_messages():
+    ser = connect_arduino()
+    arduino_recieved_raw = read_raw_data(ser)
+    
+    try:
+        # Assuming read_raw_data already returns a string suitable for regex
+        string_pattern = r'([^#]*)#'
+        formatted_str_list = re.findall(string_pattern, arduino_recieved_raw)
+        
+        if formatted_str_list:
+            formatted_string = formatted_str_list[0]
+            values = [int(formatted_string[i:i+4].strip()) for i in range(0, len(formatted_string), 4)]
+            return values
+        else:
+            print("No formatted string found.")
+            return []
+    except Exception as e:
+        print(f"Message format not found. Failed to extract data: {e}")
+        return []
+
 
 def extract_messages():
     ser = connect_arduino();

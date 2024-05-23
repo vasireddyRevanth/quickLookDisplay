@@ -1,8 +1,13 @@
 import serial 
 from arduinoComm import extract_messages, echoMeasured
+from datetime import datetime
 
-while True:
-    print(echoMeasured())
-# Open the serial port 
+try:
+    while True:
+        print(echoMeasured(),datetime.now().strftime("%H:%M:%S"));
+except KeyboardInterrupt:
+    print("\nCaught KeyboardInterrupt")
+
+    # Open the serial port 
 
 
