@@ -12,7 +12,7 @@ import tkinter as tk
 
 
 #####
-UPDATE_RATE = 1000 # Rate of display data updates (in miilliseconds)
+UPDATE_RATE = 150 # Rate of display data updates (in miilliseconds)
 GRAPH_PNG_PATH = 'graphs/';
 
 root = tk.Tk()
