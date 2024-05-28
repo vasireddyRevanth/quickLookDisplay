@@ -22,7 +22,7 @@ root.title("Quick Look Display");
 
 ROOT_HEIGHT = root.winfo_height()
 ROOT_WIDTH = root.winfo_width()
-UPDATE_RATE =100
+UPDATE_RATE =100   # in milliseconds
 
 root.minsize(1000,1000)
 
@@ -94,6 +94,8 @@ x_vals = []
 y_vals = []
 y_vals2 = []
 
+measured = echoMeasured();
+
 start_time = datetime.now()
 time_elapsed = int()
 def updateElapsedTime():
@@ -111,15 +113,19 @@ def updateElapsedTime():
 threading.Thread(target=updateElapsedTime, daemon=True).start()
 
 
-x = [0]
-y1= [0]
-y2 = [0]
-y3 = [0]
-
+def updateMeasured():
+    global measured;
+    measured = echoMeasured();
+    current_time_str = datetime.now().strftime("%H:%M:%S");
+    measureX_label.config(text=current_time_str);
+    measureY_label.config(text=measured[1])
+    measureZ_label.config(text=measured[2]);
+    # generateGraph(measured[0], measured[1], measured[2]);
 
 
 def animate(i):
-    measured = echoMeasured()
+    global measured
+    # measured = echoMeasured()
 
     # Generate values
     x_vals.append(next(index))
@@ -140,10 +146,21 @@ canvas.get_tk_widget().grid(column=0, row=1)
 plt.gcf().subplots(1, 2)
 ani = FuncAnimation(plt.gcf(), animate, interval=100, blit=False, save_count=100)
 
+is_scheduled = True
+def schedule_updates():
+    schedule_duration=UPDATE_RATE; # in milliseconds
+
+    global is_scheduled
+    if is_scheduled:
+        updateElapsedTime()
+        updateMeasured()
+        # updateImage()
+        root.after(schedule_duration, schedule_updates);
 
 
 
 
+schedule_updates();
 root.mainloop();
 ##################################
 
