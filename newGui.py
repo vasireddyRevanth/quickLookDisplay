@@ -24,6 +24,10 @@ ROOT_HEIGHT = root.winfo_height()
 ROOT_WIDTH = root.winfo_width()
 UPDATE_RATE =100   # in milliseconds
 
+set1 = tk.DoubleVar()
+set2 = tk.DoubleVar()
+set3 = tk.DoubleVar()
+
 root.minsize(1000,1000)
 
 root.rowconfigure(0, weight=1)
@@ -54,16 +58,23 @@ set1_label = tk.Label(left_frame, text="Set X:", bg="green", foreground="white")
 set1_label.grid(row=1, column=1, sticky="w")
 set1_entry = tk.Entry(left_frame)
 set1_entry.grid(row=1, column=2 )
+set1_scale = tk.Scale(left_frame, variable=set1, from_ = 0, to=100000, orient=tk.HORIZONTAL, bg="green", foreground="white");
+set1_scale.grid(row=1, column=3) 
+
 
 set2_label = tk.Label(left_frame, text="Set X:", bg="green", foreground="white")
 set2_label.grid(row=2, column=1, sticky="w")
 set2_entry = tk.Entry(left_frame)
 set2_entry.grid(row=2, column=2 )
+set2_scale = tk.Scale(left_frame, variable=set2, from_ = 0, to=100000, orient=tk.HORIZONTAL, bg="green", foreground="white");
+set2_scale.grid(row=2, column=3) 
 
 set3_label = tk.Label(left_frame, text="Set X:", bg="green", foreground="white")
 set3_label.grid(row=3, column=1, sticky="w")
 set3_entry = tk.Entry(left_frame)
 set3_entry.grid(row=3, column=2 )
+set3_scale = tk.Scale(left_frame, variable=set3, from_ = 0, to=100000, orient=tk.HORIZONTAL, bg="green", foreground="white");
+set3_scale.grid(row=3, column=3) 
 
 set_button = tk.Button(left_frame, text="Submit")
 set_button.grid(row=5, column=2 , columnspan=2)

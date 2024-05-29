@@ -41,33 +41,44 @@ quad3 = tk.Frame(right_frame)
 # quad3.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 quad3.grid(row=1,column=0, padx=10, pady=10);
 
+setValue = int();
 
 set1_label = tk.Label(left_frame, text="Set X:")
 set1_label.grid(row=0+4, column=0, sticky="w")
-set1_entry = tk.Entry(left_frame)
-set1_entry.grid(row=0+4, column=1)
+set1_scale = tk.Scale(left_frame, variable=setValue, from_ = 0, to=100000, orient=tk.HORIZONTAL);
+set1_scale.grid(row=2+4, column=1) 
+
+# set1_entry = tk.Entry(left_frame)
+# set1_entry.grid(row=0+4, column=1)
 
 set2_label = tk.Label(left_frame, text="Set Y:")
 set2_label.grid(row=1+4, column=0, sticky="w")
-set2_entry = tk.Entry(left_frame)
-set2_entry.grid(row=1+4, column=1) 
+set2_scale = tk.Scale(left_frame, variable=setValue, from_ = 0, to=100000, orient=tk.HORIZONTAL);
+set2_scale.grid(row=2+5, column=1) 
+
+# set2_entry = tk.Entry(left_frame)
+# set2_entry.grid(row=1+4, column=1) 
 
 set3_label = tk.Label(left_frame, text="Set Z:")
 set3_label.grid(row=2+4, column=0, sticky="w") 
-set3_entry = tk.Entry(left_frame)
-set3_entry.grid(row=2+4, column=1) 
+set3_scale = tk.Scale(left_frame, variable=setValue, from_ = 0, to=100000, orient=tk.HORIZONTAL);
+set3_scale.grid(row=2+6, column=1) 
+
+# set3_entry = tk.Entry(left_frame)
+# set3_entry.grid(row=2+4, column=1) 
+
 
 set_button = tk.Button(left_frame, text="Submit")
 set_button.grid(row=3+4, columnspan=2)
 
 measure1_label = tk.Label(left_frame, text="")
-measure1_label.grid(row=0, column=2, sticky="w")
+measure1_label.grid(row=0+4, column=2, sticky="w")
 
 measure2_label = tk.Label(left_frame, text="")
-measure2_label.grid(row=1, column=2, sticky="w")
+measure2_label.grid(row=1+4, column=2, sticky="w")
 
 measure3_label = tk.Label(left_frame, text="")
-measure3_label.grid(row=2, column=2, sticky="w")
+measure3_label.grid(row=2+4, column=2, sticky="w")
 
 plotX_image_label = tk.Label(quad1)
 plotY_image_label = tk.Label(quad2)
