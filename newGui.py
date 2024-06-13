@@ -103,7 +103,11 @@ index2 = count()
 # values for first graph
 x_vals = []
 y_vals = []
-y_vals2 = []
+z_vals = []
+
+fig1, ax11 = plt.subplots()
+fig2, ax12 = plt.subplots()
+fig3, ax13 = plt.subplots()
 
 measured = echoMeasured();
 
@@ -134,29 +138,36 @@ def updateMeasured():
     # generateGraph(measured[0], measured[1], measured[2]);
 
 
-def animate(i):
+def animate():
     global measured
     # measured = echoMeasured()
 
     # Generate values
     x_vals.append(next(index))
-    y_vals.append(math.log(measured[1]))
-    y_vals2.append(measured[2])
+    y_vals.append(math.sin(measured[1]))
+    z_vals.append(measured[2])
     # Get all axes of figure
-    ax1, ax2 = plt.gcf().get_axes()
+    # ax1, ax2, ax3 = plt.gcf().get_axes()
     # Clear current data
-    ax1.cla()
-    ax2.cla()
-    # Plot new data
-    ax1.plot(x_vals, y_vals)
-    ax2.plot(x_vals, y_vals2)
-    
-canvas = FigureCanvasTkAgg(plt.gcf(), master=right_frame)
-canvas.get_tk_widget().grid(column=0, row=1)
-# Create two subplots in row 1 and column 1, 2
-plt.gcf().subplots(1, 2)
-ani = FuncAnimation(plt.gcf(), animate, interval=100, blit=False, save_count=100)
 
+    ax11.clear()
+    ax12.clear()
+    ax13.clear()
+    # Plot new data
+    ax11.plot(x_vals, x_vals)
+    ax12.plot(x_vals, y_vals)
+    ax13.plot(x_vals, z_vals)
+    # print(x_vals,"\n",y_vals,"\n", z_vals)
+
+
+canvas1 = FigureCanvasTkAgg(fig1, master=right_frame)
+canvas1.get_tk_widget().grid(column=0, row=1)
+canvas2 = FigureCanvasTkAgg(fig2, master=right_frame)
+canvas2.get_tk_widget().grid(column=0, row=2)
+canvas3 = FigureCanvasTkAgg(fig3, master=right_frame)
+canvas3.get_tk_widget().grid(column=1, row=1)
+
+# Create two subplots in row 1 and column 1, 2
 is_scheduled = True
 def schedule_updates():
     schedule_duration=UPDATE_RATE; # in milliseconds
@@ -165,6 +176,7 @@ def schedule_updates():
     if is_scheduled:
         updateElapsedTime()
         updateMeasured()
+        animate()
         # updateImage()
         root.after(schedule_duration, schedule_updates);
 
@@ -236,7 +248,7 @@ def schedule_updates():
         ig();
         root.after(schedule_duration, schedule_updates);
 
-ani = FuncAnimation(plt.gcf(), animate, interval=100, blit=False)
+ani = animation(plt.gcf(), animate, interval=100, blit=False)
 plt.show()
 
 schedule_updates()
@@ -264,7 +276,7 @@ index2 = count()
     # canvas.get_tk_widget().grid(column=0, row=1)
     # Create two subplots in row 1 and column 1, 2
     plt.gcf().subplots(1, 2, 3)
-    ani = FuncAnimation(plt.gcf(), animate, interval=ROOT_HEIGHT, blit=False)
+    ani = animation(plt.gcf(), animate, interval=ROOT_HEIGHT, blit=False)
 
 
 # GUI
