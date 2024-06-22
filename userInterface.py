@@ -12,7 +12,7 @@ import tkinter as tk
 
 
 #####
-UPDATE_RATE = 150 # Rate of display data updates (in miilliseconds)
+UPDATE_RATE = 1000 # Rate of display data updates (in miilliseconds)
 GRAPH_PNG_PATH = 'graphs/';
 
 root = tk.Tk()
@@ -147,9 +147,9 @@ threading.Thread(target=updateElapsedTime, daemon=True).start()
 
 
 x = [0]
-y1= [0]
-y2 = [0]
-y3 = [0]
+y1= [0]*20
+y2 = [0]*20
+y3 = [0]*20
 
 
 def generateGraph(m1,m2,m3):
@@ -158,6 +158,10 @@ def generateGraph(m1,m2,m3):
     y1.append(m1);
     y2.append(m2);
     y3.append(m3);
+
+    y1 = y1[1:]
+    y2 = y2[1:]
+    y3 = y3[1:]
     
     #1
     plt.plot(x, y1)

@@ -28,15 +28,14 @@ void loop() {
   // read switch, map it to 0 or 255L
   zSensor = analogRead(ANALOG_PORT_Z) / 4;
 
-    if (ledState == LOW) {
-      ledState = HIGH;
-    } else {
-      ledState = LOW;
-    }
-
-    // set the LED with the ledState of the variable:
-    digitalWrite(ledPin, ledState);
-
+  if (ledState == LOW) {
+    ledState = HIGH;
+  } else {
+    ledState = LOW;
+  }
+  // set the LED with the ledState of the variable:
+  digitalWrite(ledPin, ledState);
+  
   
   long int set1 = 1, set2 = 2, set3 = 3;
   sprintf(buff, "!%4ld%4ld%4ld%4ld%4ld%4ld#", set1, set2, set3, xSensor, ySensor, zSensor);
