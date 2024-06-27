@@ -1,5 +1,6 @@
 import random
 import tkinter as tk
+import customtkinter as Ctk
 
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -90,7 +91,7 @@ measureZ_label.grid(row=3, column=4, padx="10")
 
 measured= [];
 
-plt.style.use('bmh')
+# plt.style.use('seaborn')
 # values for first graph
 x = []
 y1 = []
@@ -101,9 +102,9 @@ index2 = count()
 
 
 # values for first graph
-x_vals = []
-y_vals = []
-z_vals = []
+x_vals = [0]*300
+y_vals = [0]*300
+z_vals = [0]*300
 
 fig1, ax11 = plt.subplots()
 fig2, ax12 = plt.subplots()
@@ -138,26 +139,31 @@ def updateMeasured():
     # generateGraph(measured[0], measured[1], measured[2]);
 
 
-def animate():
+def animate(i):
     global measured
-    # measured = echoMeasured()
+    global x_vals, y_vals, z_vals
+    measured = echoMeasured()
 
     # Generate values
     x_vals.append(next(index))
-    y_vals.append(math.sin(measured[1]))
+    y_vals.append(math.sqrt(measured[1]))
     z_vals.append(measured[2])
     # Get all axes of figure
     # ax1, ax2, ax3 = plt.gcf().get_axes()
     # Clear current data
+    x_vals = x_vals[-300:]
+    y_vals = y_vals[-300:]
+    z_vals = z_vals[-300:]
 
-    ax11.clear()
-    ax12.clear()
-    ax13.clear()
+    ax11.cla()
+    ax12.cla()
+    ax13.cla()
     # Plot new data
     ax11.plot(x_vals, x_vals)
     ax12.plot(x_vals, y_vals)
     ax13.plot(x_vals, z_vals)
-    # print(x_vals,"\n",y_vals,"\n", z_vals)
+    print(x_vals,"\n",y_vals,"\n", z_vals)
+
 
 
 canvas1 = FigureCanvasTkAgg(fig1, master=right_frame)
@@ -167,6 +173,16 @@ canvas2.get_tk_widget().grid(column=0, row=2)
 canvas3 = FigureCanvasTkAgg(fig3, master=right_frame)
 canvas3.get_tk_widget().grid(column=1, row=1)
 
+
+anim1 = FuncAnimation(fig1, animate,interval=250, repeat=False)
+anim2 = FuncAnimation(fig2, animate,interval=250, repeat=False)
+anim3 = FuncAnimation(fig3, animate,interval=250, repeat=False)
+
+
+threading.Thread(target=animate, daemon=True).start()
+# animGraphs()
+
+# plt.show()
 # Create two subplots in row 1 and column 1, 2
 is_scheduled = True
 def schedule_updates():
@@ -176,14 +192,14 @@ def schedule_updates():
     if is_scheduled:
         updateElapsedTime()
         updateMeasured()
-        animate()
+        # animate()
         # updateImage()
         root.after(schedule_duration, schedule_updates);
 
 
 
 
-schedule_updates();
+# schedule_updates();
 root.mainloop();
 ##################################
 
