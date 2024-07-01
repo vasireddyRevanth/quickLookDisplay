@@ -13,7 +13,8 @@ def connect_arduino(port='/dev/ttyUSB0', baud_rate=9600):
         return None
 
 # Sends data to the Arduino.
-def send_data(ser, data):
+def send_data(data):
+    ser = connect_arduino()
     if ser is not None:
         try:
             ser.write(data.encode())
